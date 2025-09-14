@@ -26,21 +26,16 @@ std::vector<int> resolver(int datos) {
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    int numCasos = 0;
-    std::cin >> numCasos;
     if (! std::cin)
         return false;
 
-
-    for (int i = 0; i < numCasos; ++i) {
-        int numSeq;
-        std::cin >> numSeq;
-        std::vector<int> sol = resolver(numSeq);
-        // escribir sol
-		for (int num : sol)
-            std::cout << num << " ";
-		std::cout << "\n";
-	}
+    int numSeq;
+    std::cin >> numSeq;
+    std::vector<int> sol = resolver(numSeq);
+    // escribir sol
+	for (int num : sol)
+        std::cout << num << " ";
+	std::cout << "\n";
 
     return true;
 
@@ -62,7 +57,7 @@ int main() {
 
     // Para restablecer entrada. Comentar para acepta el reto
 #ifndef DOMJUDGE // para dejar todo como estaba al principio
-    std::cin.rdbuf(cinbuf);
+    std::cin.rdbuf(cinaabuf);
     //system("PAUSE");
 #endif
 
