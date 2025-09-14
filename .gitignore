@@ -40,4 +40,8 @@
 # debug information files
 *.dwo
 
-
+#Output directories
+out/
+build/
+bin/
+obj/
