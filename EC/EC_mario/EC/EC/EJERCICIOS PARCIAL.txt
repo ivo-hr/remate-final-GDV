@@ -1,0 +1,143 @@
+1. segmentación
+
+						  1   2   3   4   5    6   7   8   9   10  11  12  13 |salto|  14  
+
+loop: flw     f1*, 0(x1)  	  IF  ID  EX  M*  WB
+	 fmul.s  f4_, f1*, f0    	 IF  IDp ID  M1*  M2  M3* M   WB
+	 fmul.s  f3, f1, f3		      	IFp IF  ID   M1  M2  M3  M   WB
+	 fmul.s  f0, f1, f4_ 			        IF   IDp ID  M1* M2  M3  M   WB
+	 fadd.s  f0, f7, f4 					   IFp IF  IDp ID  A1  A2  M   WB
+	 addi    x1, x1, 4 						           IFp IF  IDp ID  EX  M   WB
+	 bne     x1*, x2, loop							         IFp IF  ID  EX  M   WB
+	 addi    x1*, x1, 4 					saltoXXX 			       IF  ID  EX  M   WB
+	 addi    x2, x2, 8 					     saltoXXX                       IF  ID  EX  M   WB
+again flw     f1*, 0 (x1)											     IF  ID  EX  M*  WB
+	 fmul.s  f4, f1*, f0												    IF  IDp ID  M1* M2  M3  M   WB
+	 
+	 
+
+
+nº ciclos = 30 x 13 + 4 = 394
+nº instrucciones = 30*7 + 2 = 212
+CPI = 394 / 212 = 1,86
+
+
+
+2. ruta de datos de cosa
+
+para estas dos instrucciones:
+
+- add  x3*, x4, x7
+- addi x3,  x3*, x1
+
+RegWriteM = 1			RegWriteE = 1				ForwardAE = 10
+ResultSrcM = 00		ResultSrcE = 00			ForwardBE = 00 (DA IGUAL)
+MemWriteM = 0			MemWriteE = 0
+					JumpE = 0
+					BranchE = 0
+					ALUControlE = 000 / SUMA
+					ALUSrcE = 1
+
+	// Rs1E = registro fuente 1
+	// RdM = Registro destino 
+
+if ((RS1E == RdM) && RegWriteM && (Rs1E != 0)) 
+	Forward = 10
+
+if ((RS1E == RdW) && RegWrite && (RS1E != 0))
+	Forward = 01
+else Forward = 00
+					
+
+
+
+3. Cache
+
+MP = 1 MByte
+MCache = 8 KByte
+Línea = 512 Bytes
+
+Las tres direcciones que entran:
+- 0x23345 -> 0x713BF -> 0x71584 
+
+a) ETIQ | BL | DESP
+  |__7__|__4_|__9__|
+
+		  ETIQ     BL    DESP
+0x23345 -> 0010 001 1 001 1 0100 0101 -> BL: 1001
+0x713BF -> 0111 000 1 001 1 1011 1111 -> BL: 1001
+0x71584 -> 0111 000 1 010 1 1000 0100 -> BL: 1010
+
+
+Nº Bloque | 0x23345      | 0x713BF              | 0x71584
+____________________________________________________________________
+
+1001      | 001 0001 (F) | 011 1000 (0x38) (F)  | 011 1000 (0x38)
+_____________________________________________________________________
+1010 	 | 001 0001 (P) | 011 1000 (0x38) (P)  | 011 1000 (0x38) (A)
+
+
+
+b)  ETIQ | BL | DESP
+   |__8__|__3_|__9__|
+
+		  ETIQ      BL  DESP
+0x23345 -> 0010 0011 001 1 0100 0101 -> BL: 001
+0x713BF -> 0111 0001 001 1 1011 1111 -> BL: 001
+0x71584 -> 0111 0001 010 1 1000 0100 -> BL: 010
+
+
+CONJUNTO| BL | 0x23345             | 0x713BF              | 0x71584
+_________________________________________________________________________________
+
+        | 0  | 0010 0011 (0x23) (F) | 0010 0011 (0x23)     | 0010 0011 (0x23)
+001     _________________________________________________________________________
+		
+        | 1  |                      | 0111 0001 (0x71) (F) | 0111 0001 (0x71)
+_________________________________________________________________________________
+
+        | 0  | 0010 0011 (0x23) (P) | 0010 0011 (0x23)     | 0010 0011 (0x23)
+010     _________________________________________________________________________
+
+        | 1  |                      | 0111 0001 (0x71) (P) | 0111 0001 (0x71) (A)
+
+
+4. Ese ejercicio feo:
+
+C = CACHE
+CV = CACHE VICTIMA
+BP = BUFFER PREBÚSQUEDA
+MP = MEMORIA PRINCIPAL
+
+Caso 1:
+	Acierto en C (ta weno)
+
+Caso 2: Fallo en C:
+	-	2a: Acierto en CV: 
+			Intercambio de Bloques: 
+				CV -> C;
+				C -> CV;
+
+	-	2b: Fallo en CV, Acierto en BP: 
+				BP -> C; 
+				C -> CV;
+
+	-	2c: Fallo en CV, Fallo en BP: 
+			Búsqueda en MP:
+				MP -> C; 
+				C -> CV; 
+				MP -> BP (envías el bloque+1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
