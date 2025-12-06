@@ -25,12 +25,33 @@ struct TeamInfo {
     int tiempoTotal = 0;
 };
 
+struct TeamRes {
+    std::string nombre;
+    int resueltos = 0;
+    int tiempoTotal = 0;
 
-void procesaEnvios(unordered_map<std::string, TeamInfo>& resultados) {
+    bool operator<(const TeamRes& other) const {
+        int rDiff = resueltos - other.resueltos;
+        if (rDiff != 0)
+            return rDiff > 0;
+
+        int tDiff = tiempoTotal - other.tiempoTotal;
+        if (tDiff != 0)
+            return tDiff < 0;
+
+        return nombre < other.nombre;
+    }
+};
+
+// El coste variará dependiendo del número de equipos y problemas: si es mayor el de equipos, el coste será O(e*log(e)). Si es el de problemas, puede llegar a ser O(p)
+std::vector<TeamRes> procesaEnvios(unordered_map<std::string, TeamInfo>& resultados) {
     std::string equipo, problema, veredicto;
     int minuto;
 
+    std::vector<TeamRes> toRet;
+
     std::cin >> equipo;
+    //Bucle de coste lineal en función al Nº problemas --> coste O(p)
     while (equipo != "FIN") {
         std::cin >> problema >> minuto >> veredicto;
 
@@ -45,7 +66,7 @@ void procesaEnvios(unordered_map<std::string, TeamInfo>& resultados) {
         TeamInfo& team = resultados[equipo];
         ProbInfo& prob = team.probs[problema];
         //Si no está resuelto el problema aún
-        if (prob.resuelto == false) {
+        if (!prob.resuelto) {
             //Miramos si esta correcto
             if (veredicto == "AC") {
                 //si sí, lo asiganmos como resuelto y calculamos cosillas
@@ -64,6 +85,21 @@ void procesaEnvios(unordered_map<std::string, TeamInfo>& resultados) {
             std::cin >> equipo;
     }
 
+    //Bucle de coste lineal en función al Nº equipos --> coste O(e)
+    for (auto& team : resultados) {
+        TeamRes t;
+        t.nombre = team.second.nombre;
+        t.resueltos = team.second.resueltos;
+        t.tiempoTotal = team.second.tiempoTotal;
+
+        toRet.push_back(t);
+    }
+    
+    //Algoritmo de ordenación en función al Nº de equipos --> coste O(e*log(e))
+     std::sort(toRet.begin(), toRet.end());
+
+
+     return toRet;
 
 }
 
@@ -71,37 +107,11 @@ void procesaEnvios(unordered_map<std::string, TeamInfo>& resultados) {
 // configuración, y escribiendo la respuesta
 void resuelveCaso() {
     
-    unordered_map<std::string, TeamInfo> res;
+    unordered_map<std::string, TeamInfo> teams;
 
 
-    procesaEnvios(res);
+    std::vector<TeamRes> rank = procesaEnvios(teams);
 
-    // Se imprime la salida
-    std::vector<TeamInfo> rank;
-
-    //Metemos los equipos en un vector
-    for (auto& r : res)
-        rank.push_back(r.second);
-
-    auto comparador = [](const TeamInfo& a, const TeamInfo& b) {
-
-        //NumResueltos
-        int rDiff = b.resueltos - a.resueltos;
-        if (rDiff != 0)
-            return rDiff < 0;
-
-        //Tiempo en resolver
-        int tDiff = b.tiempoTotal - a.tiempoTotal;
-        if (tDiff != 0)
-            return tDiff > 0;
-        
-
-        //Orden alfabético
-        return a.nombre < b.nombre;
-
-        };
-
-    std::sort(rank.begin(), rank.end(), comparador);
 
 
     for (auto& team : rank)
@@ -114,7 +124,7 @@ void resuelveCaso() {
 int main() {
     // Para la entrada por fichero.
     // Comentar para acepta el reto
-//#define DOMJUDGE
+#define DOMJUDGE
 #ifndef DOMJUDGE
     std::ifstream in("input.txt");
     auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::std::cin to casos.txt
