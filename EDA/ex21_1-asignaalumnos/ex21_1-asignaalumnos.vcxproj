@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8b54c554-4f51-40f4-a9e4-afaab209d745}</ProjectGuid>
-    <RootNamespace>ene25nodosAcum</RootNamespace>
+    <ProjectGuid>{6f8f7c52-af7f-416e-bfab-7263ac2ded3b}</ProjectGuid>
+    <RootNamespace>ex211asignaalumnos</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,10 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ene25-nodosAcum.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="bintree_eda.h" />
+    <ClCompile Include="ex21_1-asignaalumnos.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
