@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f19dcf09-179e-492f-9daf-fa195584ea35}</ProjectGuid>
-    <RootNamespace>ene21arbParalelo</RootNamespace>
+    <ProjectGuid>{ee4d2914-0d1e-48bc-a357-adb478652fba}</ProjectGuid>
+    <RootNamespace>jun2024partitiontadset</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,10 +123,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ene21-arbParalelo.cpp" />
+    <ClCompile Include="jun2024_partition-tadset.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bintree_eda.h" />
+    <ClInclude Include="deque_eda.h" />
+    <ClInclude Include="list_eda.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

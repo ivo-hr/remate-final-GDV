@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="ej2_2024-ptoCruce.vcxproj" />
+  <Project Path="ej2_2024-ptoCruce.vcxproj" Id="e08bff84-122b-416e-9ac3-a0a3245ba699" />
 </Solution>

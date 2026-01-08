@@ -15,6 +15,16 @@ struct soluc {
      
 };
 
+/*
+
+Te mando un caso con el que fallas (la respuesta debería ser NO 17 18):
+
+18
+8 9 15 23 24 34 37 47 53 55 61 68 75 85 95 96 104 109
+208 199 190 181 176 172 170 168 159 158 155 146 142 134 127 118 108 105
+    
+*/
+
 // función que resuelve el problema
 // Coste O(log N) siendo n el número de puntos, debido a hacer divide y vencerás. 
 soluc resolver(vector<int>& A, vector<int>& B, int ini, int fin) {
@@ -33,7 +43,7 @@ soluc resolver(vector<int>& A, vector<int>& B, int ini, int fin) {
             else return {-1, 0,false};
         }
         //Estamos en el extremo dcho
-        else if (ini == (int)A.size() - 1) {
+        else if (ini == (int)A.size()) {
             return {ini, ini + 1, false};
         }
         
