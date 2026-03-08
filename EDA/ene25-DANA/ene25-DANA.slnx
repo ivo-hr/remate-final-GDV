@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="ene25-DANA.vcxproj" />
+  <Project Path="ene25-DANA.vcxproj" Id="abe26f8c-a116-4d2c-a9f0-b96222ab6e71" />
 </Solution>
